@@ -1,0 +1,6 @@
+@telegram_referral_bot_HostAddress = http://localhost:5010
+
+GET {{telegram_referral_bot_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
