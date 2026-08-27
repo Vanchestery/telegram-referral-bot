@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="ReferralBot.Core/ReferralBot.Core.csproj" />
   <Project Path="telegram-referral-bot/telegram-referral-bot.csproj" />
 </Solution>
