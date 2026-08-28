@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="ReferralBot.Core/ReferralBot.Core.csproj" />
+  <Project Path="ReferralBot.Db/ReferralBot.Db.csproj" />
   <Project Path="telegram-referral-bot/telegram-referral-bot.csproj" />
 </Solution>
