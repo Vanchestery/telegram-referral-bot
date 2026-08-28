@@ -8,8 +8,8 @@ namespace ReferralBot.Db.Context;
 /// Нужна потому что DatabaseContext живёт в отдельном проекте без точки входа.
 ///
 /// Использование:
-///   dotnet ef migrations add InitialCreate --project ReferralBot.Db --startup-project telegram-referral-bot
-///   dotnet ef database update            --project ReferralBot.Db --startup-project telegram-referral-bot
+///   docker compose up -d db
+///   dotnet ef database update --project ReferralBot.Db
 /// </summary>
 public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
 {
