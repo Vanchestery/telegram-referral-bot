@@ -6,6 +6,17 @@
     <Nullable>enable</Nullable>
     <RootNamespace>ReferralBot.Core</RootNamespace>
     <AssemblyName>ReferralBot.Core</AssemblyName>
+    <!-- NU1903: AutoMapper 12.x — последняя MIT-версия; 13.x имеет GHSA-rv3-g6hj-g44x, 15+ коммерческие. -->
+    <NoWarn>NU1903</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReferralBot.Db\ReferralBot.Db.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.11" />
+  </ItemGroup>
 
 </Project>
