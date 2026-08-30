@@ -1,5 +1,7 @@
+using ReferralBot.Core.Interfaces;
 using ReferralBot.Models;
 using ReferralBot.Pages;
+using ReferralBot.Pages.Referral;
 
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -7,7 +9,10 @@ using Telegram.Bot.Types;
 namespace ReferralBot.Services;
 
 public class CommandsProvider(
+    IAccountService accountService,
+    IReferralLinkService referralLinkService,
     PageCreator pageCreator,
+    IConfiguration config,
     ILogger<CommandsProvider> logger)
 {
     public async Task SetCommandsAsync(ITelegramBotClient client, CancellationToken ct = default)
@@ -31,9 +36,28 @@ public class CommandsProvider(
         if (string.IsNullOrEmpty(text)) return;
 
         if (text.StartsWith("/start"))
+            await HandleStartCommandAsync(update, context, text, ct);
+    }
+
+    private async Task HandleStartCommandAsync(
+        Update update,
+        TelegramUserContext context,
+        string messageText,
+        CancellationToken ct)
+    {
+        var telegramUserId = context.TelegramId;
+
+        var isReferred = await accountService.IsUserReferredAsync(telegramUserId, ct);
+        if (isReferred)
             ResetContext(update, context);
 
-        await Task.CompletedTask;
+        var parts = messageText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var keyLength = config.GetValue<int>("KEY_LENGTH", 8);
+
+        if (parts.Length > 1 && parts[1].Length == keyLength)
+            await HandleReferralKeyAsync(context, parts[1], ct);
+        else
+            ResetContext(update, context);
     }
 
     private void ResetContext(Update update, TelegramUserContext context)
@@ -47,5 +71,32 @@ public class CommandsProvider(
             context.AddPage(pageCreator.CreatePage<StartPage>());
 
         logger.LogDebug("Context reset for user {UserId}", context.TelegramId);
+    }
+
+    private async Task HandleReferralKeyAsync(TelegramUserContext context, string key, CancellationToken ct)
+    {
+        try
+        {
+            var referralLink = await referralLinkService.CheckSecretKeyAsync(key, ct);
+            if (referralLink is null)
+            {
+                logger.LogWarning("Invalid referral key: {Key}", key);
+                return;
+            }
+
+            await accountService.GetOrCreateAsync(context.TelegramId, ct);
+            var added = await accountService.AddReferrerIdByTelegramIdAsync(
+                context.TelegramId, referralLink.AccountId, ct);
+
+            if (added)
+            {
+                context.AddPage(pageCreator.CreatePage<ReferralStartPage>());
+                logger.LogInformation("User {UserId} registered via referral key {Key}", context.TelegramId, key);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error processing referral key {Key} for user {UserId}", key, context.TelegramId);
+        }
     }
 }

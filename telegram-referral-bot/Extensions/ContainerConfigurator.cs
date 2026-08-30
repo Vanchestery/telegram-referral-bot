@@ -30,6 +30,8 @@ public static class ContainerConfigurator
         RegisterPages(services);
         ConfigureAutoMapper(services);
 
+        services.AddMemoryCache();
+
         services.AddSingleton<IHostedService>(sp =>
             new WebHookConfigurator(
                 sp.GetRequiredService<IServiceScopeFactory>(),
@@ -96,6 +98,10 @@ public static class ContainerConfigurator
     {
         services.AddScoped<ITelegramBotUserService, TelegramBotUserService>();
         services.AddScoped<ITelegramBotUserStatesService, TelegramBotUserStatesService>();
+        services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<IReferralLinkService, ReferralLinkService>();
+        services.AddScoped<IBonusService, BonusService>();
+        services.AddScoped<IPartnerService, PartnerService>();
     }
 
     private static void RegisterBotServices(IServiceCollection services)
@@ -128,6 +134,9 @@ public static class ContainerConfigurator
         {
             cfg.AddProfile<TelegramBotUserProfile>();
             cfg.AddProfile<TelegramBotUserStateProfile>();
+            cfg.AddProfile<AccountProfile>();
+            cfg.AddProfile<ReferralLinkProfile>();
+            cfg.AddProfile<BonusTransactionProfile>();
         });
     }
 }
