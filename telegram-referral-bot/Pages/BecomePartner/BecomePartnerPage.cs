@@ -1,4 +1,5 @@
 using ReferralBot.Models;
+using ReferralBot.Pages.Partner;
 using ReferralBot.Pages.Question;
 using ReferralBot.Services;
 
@@ -39,7 +40,7 @@ public class BecomePartnerPage(PageCreator pageCreator) : CallbackQueryPageBase
     {
         return Task.FromResult<ButtonLinqPage[][]>(
         [
-            [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("ГО ПАРТНЕРИТЬСЯ ✅"), pageCreator.CreatePage<NotStartedPage>())],
+            [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("ГО ПАРТНЕРИТЬСЯ ✅"), pageCreator.CreatePage<WelcomePartnerPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("ЗАДАТЬ ВОПРОС"), pageCreator.CreatePage<AskQuestionPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("Назад ⬅️"), pageCreator.CreatePage<BackwardDummyPage>())]
         ]);
