@@ -35,6 +35,7 @@ public static class ContainerConfigurator
         services.AddMemoryCache();
 
         ConfigureStepikApiClient(services);
+        services.AddScoped<ICourseService, CourseService>();
 
         services.AddSingleton<IHostedService>(sp =>
             new WebHookConfigurator(
