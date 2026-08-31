@@ -1,6 +1,7 @@
 using ReferralBot.Core.Interfaces;
 using ReferralBot.Core.Models;
 using ReferralBot.Models;
+using ReferralBot.Pages.Courses;
 using ReferralBot.Pages.Question;
 using ReferralBot.Services;
 
@@ -64,7 +65,7 @@ public class PartnerHomePage(
     {
         return Task.FromResult<ButtonLinqPage[][]>(
         [
-            [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("ВЫБРАТЬ КУРС"), pageCreator.CreatePage<NotStartedPage>())],
+            [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("ВЫБРАТЬ КУРС"), pageCreator.CreatePage<CSharpCoursesPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("🎁 ИСПОЛЬЗОВАТЬ БОНУСЫ"), pageCreator.CreatePage<UseBonusesPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("📊 ДЕТАЛЬНАЯ СТАТИСТИКА"), pageCreator.CreatePage<StatisticsPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("О ШКОЛЕ"), pageCreator.CreatePage<AboutTheSchoolPage>())],

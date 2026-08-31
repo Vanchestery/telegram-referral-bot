@@ -1,5 +1,6 @@
 using ReferralBot.Core.Interfaces;
 using ReferralBot.Models;
+using ReferralBot.Pages.Courses;
 using ReferralBot.Services;
 
 using Telegram.Bot.Types.ReplyMarkups;
@@ -41,7 +42,7 @@ public class UseBonusesPage(
     {
         return Task.FromResult<ButtonLinqPage[][]>(
         [
-            [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("🎓 КУПИТЬ КУРС"), pageCreator.CreatePage<NotStartedPage>())],
+            [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("🎓 КУПИТЬ КУРС"), pageCreator.CreatePage<CSharpCoursesPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("🏪 КУПИТЬ МЕРЧ"), pageCreator.CreatePage<NotStartedPage>())],
             [new ButtonLinqPage(InlineKeyboardButton.WithCallbackData("Назад ⬅️"), pageCreator.CreatePage<BackwardDummyPage>())]
         ]);
