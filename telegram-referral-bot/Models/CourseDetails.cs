@@ -11,4 +11,7 @@ public record CourseDetails
 
     /// <summary>Цена в базовой валюте. 0 — цена не указана/бесплатно.</summary>
     public decimal Price { get; init; }
+
+    /// <summary>Абсолютный URL обложки на CDN Stepik. null — обложки нет.</summary>
+    public string? CoverUrl { get; init; }
 }

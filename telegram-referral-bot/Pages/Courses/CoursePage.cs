@@ -46,6 +46,10 @@ public class CoursePage(
             logger.LogDebug(ex, "Could not send upload-photo action for course {CourseId}", context.SelectedCourseId);
         }
 
+        var course = await courseService.GetCourseInfoAsync(context.SelectedCourseId);
+        if (!string.IsNullOrEmpty(course?.CoverUrl))
+            return InputFile.FromUri(course.CoverUrl);
+
         var logo = await courseService.GetCourseLogoAsync(context.SelectedCourseId);
         return logo is { Length: > 0 }
             ? InputFile.FromStream(new MemoryStream(logo), $"course_{context.SelectedCourseId}.png")

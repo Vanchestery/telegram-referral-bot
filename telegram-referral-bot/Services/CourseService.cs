@@ -59,20 +59,25 @@ public class CourseService(
             Id = course.Id,
             Title = course.Title,
             Summary = course.Summary,
-            Price = price
+            Price = price,
+            CoverUrl = NormalizeCoverUrl(course.Cover)
         };
     }
 
     public async Task<byte[]?> GetCourseLogoAsync(int courseId, CancellationToken ct = default)
     {
         var course = await GetCourseCachedAsync(courseId, ct);
-        if (course is null || string.IsNullOrEmpty(course.Cover))
+        if (course is null)
+            return null;
+
+        var coverUrl = NormalizeCoverUrl(course.Cover);
+        if (coverUrl is null)
             return null;
 
         try
         {
-            var client = httpClientFactory.CreateClient();
-            return await client.GetByteArrayAsync(course.Cover, ct);
+            var client = httpClientFactory.CreateClient("stepik-covers");
+            return await client.GetByteArrayAsync(coverUrl, ct);
         }
         catch (Exception ex)
         {
@@ -87,4 +92,18 @@ public class CourseService(
             entry.AbsoluteExpirationRelativeToNow = Ttl;
             return await stepik.GetCourseByIdAsync(courseId, null, ct);
         });
+
+    private static string? NormalizeCoverUrl(string? cover)
+    {
+        if (string.IsNullOrWhiteSpace(cover))
+            return null;
+        if (cover.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+            || cover.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            return cover;
+        if (cover.StartsWith("//"))
+            return "https:" + cover;
+        if (cover.StartsWith('/'))
+            return "https://stepik.org" + cover;
+        return "https://stepik.org/" + cover;
+    }
 }

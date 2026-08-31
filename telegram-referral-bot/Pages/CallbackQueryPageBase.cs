@@ -69,12 +69,28 @@ public abstract class CallbackQueryPageBase : IPage
             return await ViewAsync(update, context);
 
         var nextPageResult = await button.Page.ViewAsync(update, context);
+        return PreserveMedia(nextPageResult, nextPageResult.NextPage ?? button.Page);
+    }
 
-        return new PageResultBase(
-            text: nextPageResult.Text,
-            replyMarkup: nextPageResult.ReplyMarkup,
-            nextPage: nextPageResult.NextPage ?? button.Page
-        );
+    /// <summary>
+    /// Базовый HandleAsync раньше всегда паковал результат в PageResultBase —
+    /// обложка курса (PhotoPageResult) и документы терялись. Перекладываем
+    /// медиа как есть и проставляем NextPage для стека.
+    /// </summary>
+    private static PageResultBase PreserveMedia(PageResultBase result, IPage nextPage)
+    {
+        PageResultBase preserved = result switch
+        {
+            PhotoPageResult photo => new PhotoPageResult(
+                photo.Photo, photo.Text, photo.ReplyMarkup, nextPage),
+            DocumentPageResult document => new DocumentPageResult(
+                document.Document, document.Text, document.ReplyMarkup, nextPage),
+            _ => new PageResultBase(result.Text, result.ReplyMarkup, nextPage)
+        };
+
+        preserved.ParseMode = result.ParseMode;
+        preserved.TelegramUserContext = result.TelegramUserContext;
+        return preserved;
     }
 
     private async Task<InlineKeyboardMarkup> BuildKeyboardAsync(TelegramUserContext context)

@@ -169,5 +169,13 @@ public static class ContainerConfigurator
                     var reason = outcome.Exception?.Message ?? outcome.Result.StatusCode.ToString();
                     Console.WriteLine($"[Stepik] Retry {attempt} after {timespan.TotalSeconds}s. Reason: {reason}");
                 }));
+
+        // Обложки с CDN Stepik: отдельный клиент, чтобы зависшая картинка
+        // не держала webhook на дефолтные 100 с HttpClient.
+        services.AddHttpClient("stepik-covers", client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds(20);
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("ReferralBot/1.0");
+        });
     }
 }
