@@ -237,13 +237,27 @@ public class BotService(
         {
             if (result is Pages.PageResults.PhotoPageResult photo)
             {
-                return await client.SendPhoto(
-                    chatId: chatId.Value,
-                    photo: photo.Photo,
-                    caption: photo.Text,
-                    parseMode: photo.ParseMode,
-                    replyMarkup: photo.ReplyMarkup,
-                    cancellationToken: ct);
+                try
+                {
+                    return await client.SendPhoto(
+                        chatId: chatId.Value,
+                        photo: photo.Photo,
+                        caption: photo.Text,
+                        parseMode: photo.ParseMode,
+                        replyMarkup: photo.ReplyMarkup,
+                        cancellationToken: ct);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "SendPhoto failed for user {UserId}, falling back to text", userId);
+                    return await client.SendMessage(
+                        chatId: chatId.Value,
+                        text: photo.Text,
+                        parseMode: photo.ParseMode,
+                        replyMarkup: photo.ReplyMarkup,
+                        linkPreviewOptions: new LinkPreviewOptions { IsDisabled = true },
+                        cancellationToken: ct);
+                }
             }
 
             return await client.SendMessage(

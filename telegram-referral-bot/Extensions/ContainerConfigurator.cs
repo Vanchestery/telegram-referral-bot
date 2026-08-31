@@ -3,6 +3,8 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
+using Polly;
+
 using ReferralBot.Core.Interfaces;
 using ReferralBot.Core.Mappings;
 using ReferralBot.Core.Services;
@@ -31,6 +33,9 @@ public static class ContainerConfigurator
         ConfigureAutoMapper(services);
 
         services.AddMemoryCache();
+
+        ConfigureStepikApiClient(services);
+        services.AddScoped<ICourseService, CourseService>();
 
         services.AddSingleton<IHostedService>(sp =>
             new WebHookConfigurator(
@@ -137,6 +142,40 @@ public static class ContainerConfigurator
             cfg.AddProfile<AccountProfile>();
             cfg.AddProfile<ReferralLinkProfile>();
             cfg.AddProfile<BonusTransactionProfile>();
+        });
+    }
+
+    /// <summary>
+    /// Typed HTTP-клиент для Stepik API с retry-политикой Polly.
+    /// Exponential backoff: 1я попытка — сразу, 2я — через 2с, 3я — через 4с.
+    /// Срабатывает при HttpRequestException и ответах 5xx.
+    /// </summary>
+    private static void ConfigureStepikApiClient(IServiceCollection services)
+    {
+        services.AddHttpClient<IStepikApiClient, StepikApiClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://stepik.org/api/");
+            client.Timeout = TimeSpan.FromSeconds(15);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        })
+        .AddPolicyHandler(Policy<HttpResponseMessage>
+            .Handle<HttpRequestException>()
+            .OrResult(r => (int)r.StatusCode >= 500)
+            .WaitAndRetryAsync(
+                retryCount: 3,
+                sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
+                onRetry: (outcome, timespan, attempt, _) =>
+                {
+                    var reason = outcome.Exception?.Message ?? outcome.Result.StatusCode.ToString();
+                    Console.WriteLine($"[Stepik] Retry {attempt} after {timespan.TotalSeconds}s. Reason: {reason}");
+                }));
+
+        // Обложки с CDN Stepik: отдельный клиент, чтобы зависшая картинка
+        // не держала webhook на дефолтные 100 с HttpClient.
+        services.AddHttpClient("stepik-covers", client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds(20);
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("ReferralBot/1.0");
         });
     }
 }
