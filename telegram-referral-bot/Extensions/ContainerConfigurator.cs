@@ -36,6 +36,7 @@ public static class ContainerConfigurator
 
         ConfigureStepikApiClient(services);
         services.AddScoped<ICourseService, CourseService>();
+        services.AddHostedService<DailyStatsNotificationService>();
 
         services.AddSingleton<IHostedService>(sp =>
             new WebHookConfigurator(
