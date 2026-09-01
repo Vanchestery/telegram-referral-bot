@@ -36,6 +36,7 @@ public static class ContainerConfigurator
 
         ConfigureStepikApiClient(services);
         services.AddScoped<ICourseService, CourseService>();
+        services.AddHostedService<DailyStatsNotificationService>();
 
         services.AddSingleton<IHostedService>(sp =>
             new WebHookConfigurator(
@@ -107,6 +108,8 @@ public static class ContainerConfigurator
         services.AddScoped<IReferralLinkService, ReferralLinkService>();
         services.AddScoped<IBonusService, BonusService>();
         services.AddScoped<IPartnerService, PartnerService>();
+        services.AddScoped<IPromoCodeService, PromoCodeService>();
+        services.AddScoped<IWelcomeVideoService, WelcomeVideoService>();
     }
 
     private static void RegisterBotServices(IServiceCollection services)

@@ -11,6 +11,7 @@ namespace ReferralBot.Services;
 public class CommandsProvider(
     IAccountService accountService,
     IReferralLinkService referralLinkService,
+    IWelcomeVideoService welcomeVideoService,
     PageCreator pageCreator,
     IConfiguration config,
     ILogger<CommandsProvider> logger)
@@ -36,12 +37,13 @@ public class CommandsProvider(
         if (string.IsNullOrEmpty(text)) return;
 
         if (text.StartsWith("/start"))
-            await HandleStartCommandAsync(update, context, text, ct);
+            await HandleStartCommandAsync(update, context, client, text, ct);
     }
 
     private async Task HandleStartCommandAsync(
         Update update,
         TelegramUserContext context,
+        ITelegramBotClient client,
         string messageText,
         CancellationToken ct)
     {
@@ -58,6 +60,12 @@ public class CommandsProvider(
             await HandleReferralKeyAsync(context, parts[1], ct);
         else
             ResetContext(update, context);
+
+        if (!context.IsWelcomeMessageSent)
+        {
+            var sent = await SendWelcomeVideoAsync(client, update.Message!.Chat.Id, ct);
+            if (sent) context.IsWelcomeMessageSent = true;
+        }
     }
 
     private void ResetContext(Update update, TelegramUserContext context)
@@ -97,6 +105,33 @@ public class CommandsProvider(
         catch (Exception ex)
         {
             logger.LogError(ex, "Error processing referral key {Key} for user {UserId}", key, context.TelegramId);
+        }
+    }
+
+    private async Task<bool> SendWelcomeVideoAsync(ITelegramBotClient client, long chatId, CancellationToken ct)
+    {
+        try
+        {
+            var fileId = await welcomeVideoService.GetActiveFileIdAsync(ct);
+            if (fileId is null)
+            {
+                logger.LogWarning("No active welcome video found");
+                return false;
+            }
+
+            await client.SendVideo(
+                chatId: chatId,
+                video: new InputFileId(fileId),
+                caption: "Добро пожаловать в реферальную программу школы IRON PROGRAMMER!",
+                cancellationToken: ct);
+
+            logger.LogInformation("Welcome video sent to chat {ChatId}", chatId);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to send welcome video to chat {ChatId}", chatId);
+            return false;
         }
     }
 }
