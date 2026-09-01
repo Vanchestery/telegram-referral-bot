@@ -1,3 +1,4 @@
+using ReferralBot.Core.Interfaces;
 using ReferralBot.Models;
 using ReferralBot.Services;
 
@@ -10,11 +11,13 @@ namespace ReferralBot.Pages.Courses;
 
 /// <summary>
 /// Карточка курса: обложка + название/описание/цена + ссылки на Stepik.
-/// Персональный промокод партнёра подключится в payment-api.
+/// «Купить со скидкой» подставляет персональный промокод партнёра, если он есть.
 /// </summary>
 public class CoursePage(
     PageCreator pageCreator,
     ICourseService courseService,
+    IPromoCodeService promoCodeService,
+    IAccountService accountService,
     ITelegramBotClient botClient,
     ILogger<CoursePage> logger) : CallbackQueryPageBase
 {
@@ -56,19 +59,27 @@ public class CoursePage(
             : null;
     }
 
-    public override Task<ButtonLinqPage[][]> GetKeyboardAsync(TelegramUserContext context)
+    public override async Task<ButtonLinqPage[][]> GetKeyboardAsync(TelegramUserContext context)
     {
         var courseId = context.SelectedCourseId;
         var courseUrl = $"https://stepik.org/a/{courseId}";
-        var payUrl = $"https://stepik.org/a/{courseId}/pay";
 
-        return Task.FromResult<ButtonLinqPage[][]>(
+        var account = await accountService.GetByTelegramUserIdAsync(context.TelegramId);
+        var hex = account is null
+            ? null
+            : await promoCodeService.GetHexForPaymentAsync(courseId, account.Id);
+
+        var payUrl = string.IsNullOrEmpty(hex)
+            ? $"https://stepik.org/a/{courseId}/pay"
+            : $"https://stepik.org/a/{courseId}/pay?promo={hex}";
+
+        return
         [
             [new ButtonLinqPage(InlineKeyboardButton.WithUrl("Посмотреть курс", courseUrl))],
             [new ButtonLinqPage(InlineKeyboardButton.WithUrl("🛒 Купить со скидкой", payUrl))],
             [new ButtonLinqPage(
                 InlineKeyboardButton.WithCallbackData("Назад ⬅️"),
                 pageCreator.CreatePage<BackwardDummyPage>())],
-        ]);
+        ];
     }
 }
