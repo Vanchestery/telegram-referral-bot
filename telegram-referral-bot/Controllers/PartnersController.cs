@@ -12,7 +12,7 @@ public class PartnersController(
     IPartnerService partnerService,
     ILogger<PartnersController> logger) : ControllerBase
 {
-    /// <summary>Список всех партнёров.</summary>
+    /// <summary>List of all partners.</summary>
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken ct)
     {
@@ -22,7 +22,7 @@ public class PartnersController(
         return Ok(partners);
     }
 
-    /// <summary>Профиль партнёра по Telegram ID.</summary>
+    /// <summary>Partner profile by Telegram ID.</summary>
     [HttpGet("{telegramUserId:long}")]
     public async Task<IActionResult> GetByTelegramId(long telegramUserId, CancellationToken ct)
     {

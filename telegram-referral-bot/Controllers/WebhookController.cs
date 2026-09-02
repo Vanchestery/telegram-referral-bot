@@ -16,18 +16,18 @@ public class WebhookController(
     ILogger<WebhookController> logger) : ControllerBase
 {
     /// <summary>
-    /// Приёмник обновлений от Telegram.
+    /// Receiver of updates from Telegram.
     /// </summary>
     /// <remarks>
-    /// Telegram присылает JSON в snake_case (first_name, message_id, ...).
-    /// Стандартный сериализатор ASP.NET Core (camelCase) НЕ мапит эти поля на
-    /// свойства типов Telegram.Bot — например, first_name не ложится в FirstName,
-    /// из-за чего срабатывает валидация модели и запрос рубится с 400 ещё до сюда.
+    /// Telegram sends JSON in snake_case (first_name, message_id, ...).
+    /// The default ASP.NET Core serializer (camelCase) does NOT map those fields onto
+    /// Telegram.Bot types — e.g. first_name does not bind to FirstName,
+    /// so model validation fails and the request is rejected with 400 before it reaches here.
     ///
-    /// Поэтому НЕ используем [FromBody]: читаем тело и десериализуем Update вручную
-    /// через JsonBotAPI.Options — это сериализатор самой Telegram.Bot со snake_case
-    /// naming policy и полиморфными конвертерами. Глобальный MVC-сериализатор при
-    /// этом не трогаем, чтобы REST API сохранил свой camelCase-контракт.
+    /// Therefore we do NOT use [FromBody]: we read the body and deserialize Update manually
+    /// via JsonBotAPI.Options — Telegram.Bot's own serializer with a snake_case
+    /// naming policy and polymorphic converters. The global MVC serializer is left
+    /// unchanged so the REST API keeps its camelCase contract.
     /// </remarks>
     [HttpPost("/webhook/update")]
     public async Task<IActionResult> Update(CancellationToken ct)

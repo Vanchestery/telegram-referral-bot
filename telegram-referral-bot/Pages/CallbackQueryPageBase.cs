@@ -9,27 +9,27 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages;
 
 /// <summary>
-/// Базовый класс для всех страниц бота с inline-кнопками.
+/// Base class for all bot pages with inline buttons.
 ///
-/// Реализует шаблонный метод:
-///   1. GetRawContentAsync  — текст страницы (переопределяется в наследнике)
-///   2. GetKeyboardAsync     — матрица кнопок (переопределяется в наследнике)
-///   3. GetMediaContentAsync — опциональное фото (переопределяется при необходимости)
+/// Template method:
+///   1. GetRawContentAsync  — page text (overridden in the subclass)
+///   2. GetKeyboardAsync     — button matrix (overridden in the subclass)
+///   3. GetMediaContentAsync — optional photo (overridden when needed)
 ///
-/// ViewAsync и HandleAsync реализованы здесь — наследникам не нужно их трогать.
+/// ViewAsync and HandleAsync are implemented here — subclasses need not touch them.
 /// </summary>
 public abstract class CallbackQueryPageBase : IPage
 {
-    /// <summary>Текст страницы до экранирования MarkdownV2.</summary>
+    /// <summary>Page text before MarkdownV2 escaping.</summary>
     protected abstract Task<string> GetRawContentAsync(TelegramUserContext context);
 
     /// <summary>
-    /// Матрица кнопок. Внешний массив — строки, внутренний — кнопки в строке.
-    /// ButtonLinqPage связывает кнопку с целевой страницей.
+    /// Button matrix. Outer array — rows, inner — buttons in the row.
+    /// ButtonLinqPage binds a button to a target page.
     /// </summary>
     public abstract Task<ButtonLinqPage[][]> GetKeyboardAsync(TelegramUserContext context);
 
-    /// <summary>Опциональное медиа для страницы. По умолчанию — null (текстовая страница).</summary>
+    /// <summary>Optional media for the page. Default is null (text page).</summary>
     protected virtual Task<InputFile?> GetMediaContentAsync(TelegramUserContext context)
         => Task.FromResult<InputFile?>(null);
 
@@ -73,9 +73,9 @@ public abstract class CallbackQueryPageBase : IPage
     }
 
     /// <summary>
-    /// Базовый HandleAsync раньше всегда паковал результат в PageResultBase —
-    /// обложка курса (PhotoPageResult) и документы терялись. Перекладываем
-    /// медиа как есть и проставляем NextPage для стека.
+    /// The base HandleAsync used to wrap every result in PageResultBase —
+    /// course covers (PhotoPageResult) and documents were lost. We pass
+    /// media through as-is and set NextPage for the stack.
     /// </summary>
     private static PageResultBase PreserveMedia(PageResultBase result, IPage nextPage)
     {
@@ -102,8 +102,8 @@ public abstract class CallbackQueryPageBase : IPage
     }
 
     /// <summary>
-    /// Экранирует спецсимволы MarkdownV2.
-    /// Telegram требует экранировать: _ * [ ] ( ) ~ ` > # + - = | { } . !
+    /// Escapes MarkdownV2 special characters.
+    /// Telegram requires escaping: _ * [ ] ( ) ~ ` > # + - = | { } . !
     /// </summary>
     private static string EscapeMarkdownV2(string text)
     {

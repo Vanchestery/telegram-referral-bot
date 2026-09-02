@@ -6,10 +6,10 @@ using Telegram.Bot.Types;
 namespace ReferralBot.Pages;
 
 /// <summary>
-/// Служебная страница — реализует кнопку «Назад».
-/// При вызове снимает верхнюю страницу со стека и рендерит новую вершину.
+/// Service page — implements the "Back" button.
+/// On invoke, pops the top page from the stack and renders the new top.
 ///
-/// Не регистрируется в PageNames — используется только как маркер навигации.
+/// Not registered in PageNames — used only as a navigation marker.
 /// </summary>
 public class BackwardDummyPage : IPage
 {

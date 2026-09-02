@@ -56,8 +56,8 @@ public class PartnerService(
     }
 
     /// <summary>
-    /// Инвалидирует кэш профиля при изменении баланса.
-    /// Вызывается из BonusService после любой операции с бонусами.
+    /// Invalidates the profile cache when the balance changes.
+    /// Called from BonusService after any bonus operation.
     /// </summary>
     public void InvalidateProfileCache(long telegramUserId)
     {

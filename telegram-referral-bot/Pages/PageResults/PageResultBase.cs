@@ -6,9 +6,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages.PageResults;
 
 /// <summary>
-/// Результат рендера страницы — содержит всё необходимое для отправки сообщения в Telegram.
-/// В Telegram.Bot 22.x нет общего базового класса ReplyMarkup —
-/// используем InlineKeyboardMarkup напрямую (все страницы бота используют inline-кнопки).
+/// Page render result — everything needed to send a Telegram message.
+/// Telegram.Bot 22.x has no common ReplyMarkup base class —
+/// we use InlineKeyboardMarkup directly (all bot pages use inline buttons).
 /// </summary>
 public class PageResultBase
 {
@@ -17,16 +17,16 @@ public class PageResultBase
     public ParseMode ParseMode { get; set; } = ParseMode.MarkdownV2;
 
     /// <summary>
-    /// Следующая страница для навигации.
-    /// Устанавливается в HandleAsync когда пользователь нажал кнопку.
-    /// null — остаёмся на текущей странице.
+    /// Next page for navigation.
+    /// Set in HandleAsync when the user presses a button.
+    /// null — stay on the current page.
     /// </summary>
     public IPage? NextPage { get; }
 
-    /// <summary>true если результат содержит медиа (фото, документ).</summary>
+    /// <summary>true if the result contains media (photo, document).</summary>
     public bool IsMedia => this is PhotoPageResult or DocumentPageResult;
 
-    /// <summary>Контекст пользователя — устанавливается в ViewAsync страницы.</summary>
+    /// <summary>User context — set in the page's ViewAsync.</summary>
     public TelegramUserContext TelegramUserContext { get; set; } = null!;
 
     public PageResultBase(string text, InlineKeyboardMarkup replyMarkup, IPage? nextPage = null)

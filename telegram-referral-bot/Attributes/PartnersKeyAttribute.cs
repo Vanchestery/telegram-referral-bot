@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace ReferralBot.Attributes;
 
 /// <summary>
-/// Фильтр авторизации для внешних интеграций (платёжная система, админ-панель).
-/// Проверяет секрет в заголовке X-Partners-Key.
+/// Authorization filter for external integrations (payment system, admin panel).
+/// Checks the secret in the X-Partners-Key header.
 ///
-/// Если PARTNERS_API_KEY не задан — пропускаем (локальная разработка).
+/// If PARTNERS_API_KEY is not set — skip (local development).
 /// </summary>
 public class PartnersKeyAttribute : Attribute, IAsyncActionFilter
 {

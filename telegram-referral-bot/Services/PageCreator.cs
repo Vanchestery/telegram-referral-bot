@@ -1,11 +1,11 @@
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Создаёт экземпляры страниц через DI с правильным временем жизни.
+/// Creates page instances through DI with the correct lifetime.
 ///
-/// Зачем IServiceScopeFactory а не IServiceProvider напрямую?
-/// PageCreator сам зарегистрирован как Scoped, но страницы тоже Scoped.
-/// Создание через тот же scope корректно — страница получит те же зависимости.
+/// Why IServiceScopeFactory instead of IServiceProvider directly?
+/// PageCreator itself is registered as Scoped, and pages are also Scoped.
+/// Creating via the same scope is correct — the page gets the same dependencies.
 /// </summary>
 public class PageCreator(IServiceScopeFactory serviceScopeFactory)
 {

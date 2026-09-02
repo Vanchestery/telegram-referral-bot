@@ -41,9 +41,9 @@ public class CSharpCoursesPage(
     }
 
     /// <summary>
-    /// Клик по курсу: id в CallbackData. Сохраняем выбор в контекст,
-    /// кладём карточку в стек и возвращаем её View напрямую.
-    /// «Назад» (нечисловой CallbackData) уходит в базовую обработку.
+    /// Course click: id in CallbackData. Saves the selection in context,
+    /// pushes the card onto the stack, and returns its View directly.
+    /// "Back" (non-numeric CallbackData) falls through to the base handler.
     /// </summary>
     public override async Task<PageResultBase> HandleAsync(Update update, TelegramUserContext context)
     {
@@ -58,7 +58,7 @@ public class CSharpCoursesPage(
     }
 
     /// <summary>
-    /// Telegram отклоняет inline-кнопку длиннее 64 символов — обрезаем название курса.
+    /// Telegram rejects an inline button longer than 64 characters — truncate the course title.
     /// </summary>
     private static string ToButtonText(string title)
     {

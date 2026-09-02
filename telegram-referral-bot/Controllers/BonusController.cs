@@ -13,7 +13,7 @@ public class BonusController(
     IBonusService bonusService,
     ILogger<BonusController> logger) : ControllerBase
 {
-    /// <summary>Получить бонусный баланс по Telegram ID.</summary>
+    /// <summary>Get bonus balance by Telegram ID.</summary>
     [HttpGet("balance/{telegramUserId:long}")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -33,8 +33,8 @@ public class BonusController(
     }
 
     /// <summary>
-    /// Уведомление о покупке от платёжной системы.
-    /// Начисляет бонусы рефереру покупателя.
+    /// Purchase notification from the payment system.
+    /// Credits bonuses to the buyer's referrer.
     /// </summary>
     [HttpPost("payment")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -52,8 +52,8 @@ public class BonusController(
     }
 
     /// <summary>
-    /// Уведомление о возврате от платёжной системы.
-    /// Отменяет ранее начисленные бонусы.
+    /// Refund notification from the payment system.
+    /// Reverses previously credited bonuses.
     /// </summary>
     [HttpPost("refund")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,7 +70,7 @@ public class BonusController(
             : BadRequest(new { message = "Failed to process refund" });
     }
 
-    /// <summary>Ручная операция администратора (add / deduct).</summary>
+    /// <summary>Manual administrator operation (add / deduct).</summary>
     [HttpPost("manual")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,7 +87,7 @@ public class BonusController(
             : BadRequest(new { message = "Failed to apply manual operation" });
     }
 
-    /// <summary>Начислить бонусы пользователю.</summary>
+    /// <summary>Credit bonuses to a user.</summary>
     [HttpPost("credit/{telegramUserId:long}/{amount:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -102,7 +102,7 @@ public class BonusController(
             : BadRequest(new { message = "User not found" });
     }
 
-    /// <summary>Списать бонусы у пользователя.</summary>
+    /// <summary>Debit bonuses from a user.</summary>
     [HttpPost("debit/{telegramUserId:long}/{amount:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

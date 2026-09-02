@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace ReferralBot.Middleware;
 
 /// <summary>
-/// Логирует метод, путь, статус и время обработки HTTP-запроса.
+/// Logs HTTP method, path, status, and request processing time.
 /// </summary>
 public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggingMiddleware> logger)
 {

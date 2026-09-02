@@ -3,14 +3,14 @@ using ReferralBot.Pages;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Конвертирует стек страниц в список строк (для хранения в БД) и обратно.
+/// Converts a page stack to a list of strings (for DB storage) and back.
 ///
-/// Формат хранения: List&lt;string&gt; с полными именами типов (Type.FullName).
-/// Порядок: первый элемент = дно стека, последний = вершина.
+/// Storage format: List&lt;string&gt; of full type names (Type.FullName).
+/// Order: first element = stack bottom, last = top.
 /// </summary>
 public class PageStackConverter(PagesFactory pagesFactory, ILogger<PageStackConverter> logger)
 {
-    /// <summary>Stack → List&lt;string&gt; (для сохранения в БД).</summary>
+    /// <summary>Stack → List&lt;string&gt; (for saving to the DB).</summary>
     public List<string> ToIds(Stack<IPage> pages)
     {
         // Reverse() — стек хранит вершину первой, нам нужен порядок от дна к вершине
@@ -20,7 +20,7 @@ public class PageStackConverter(PagesFactory pagesFactory, ILogger<PageStackConv
             .ToList();
     }
 
-    /// <summary>List&lt;string&gt; → Stack (при загрузке из БД).</summary>
+    /// <summary>List&lt;string&gt; → Stack (when loading from the DB).</summary>
     public Stack<IPage> ToStack(List<string> pageIds)
     {
         if (pageIds.Count == 0)

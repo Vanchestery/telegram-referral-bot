@@ -1,8 +1,8 @@
 namespace ReferralBot.Models;
 
 /// <summary>
-/// Краткая запись о курсе для списка: идентификатор + название.
-/// Полная детализация подтягивается отдельно по Id при открытии карточки.
+/// Compact course entry for a list: identifier + title.
+/// Full details are loaded separately by Id when the card is opened.
 /// </summary>
 public record CourseIdTitlePair
 {

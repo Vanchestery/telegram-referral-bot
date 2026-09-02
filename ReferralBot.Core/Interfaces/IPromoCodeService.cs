@@ -1,13 +1,13 @@
 namespace ReferralBot.Core.Interfaces;
 
 /// <summary>
-/// Промокоды партнёров для оплаты курсов со скидкой.
+/// Partner promo codes for discounted course payments.
 /// </summary>
 public interface IPromoCodeService
 {
     /// <summary>
-    /// Hex персонального промокода партнёра для ссылки оплаты курса со скидкой.
-    /// null — если у аккаунта нет промокода на этот курс (тогда оплата без скидки).
+    /// Hex of the partner's personal promo code for a discounted payment link.
+    /// null if the account has no promo code for this course (payment without discount).
     /// </summary>
     Task<string?> GetHexForPaymentAsync(int courseId, Guid accountId, CancellationToken ct = default);
 }

@@ -1,8 +1,8 @@
 namespace ReferralBot.Extensions;
 
 /// <summary>
-/// Конфигурация Telegram-бота.
-/// Значения берутся из переменных окружения, user-secrets и appsettings.
+/// Telegram bot configuration.
+/// Values come from environment variables, user-secrets, and appsettings.
 /// </summary>
 public class BotConfiguration
 {

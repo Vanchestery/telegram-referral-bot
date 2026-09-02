@@ -1,7 +1,7 @@
 namespace ReferralBot.Models;
 
 /// <summary>
-/// Данные последнего сообщения бота.
-/// Нужны для удаления предыдущего сообщения перед отправкой нового (чистый UI).
+/// Data of the bot's last message.
+/// Used to delete the previous message before sending a new one (clean UI).
 /// </summary>
 public record TelegramBotMessageDto(int TelegramMessageId, bool IsMedia);

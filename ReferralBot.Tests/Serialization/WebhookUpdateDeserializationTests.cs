@@ -7,8 +7,8 @@ using Telegram.Bot.Types.Enums;
 namespace ReferralBot.Tests.Serialization;
 
 /// <summary>
-/// Регресс: Update от Telegram приходит в snake_case и читается через JsonBotAPI.Options.
-/// Стандартный camelCase ASP.NET не мапит first_name → FirstName.
+/// Regression: Telegram Update arrives in snake_case and is read via JsonBotAPI.Options.
+/// Standard ASP.NET camelCase does not map first_name → FirstName.
 /// </summary>
 public class WebhookUpdateDeserializationTests
 {

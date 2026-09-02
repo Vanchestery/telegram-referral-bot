@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Design;
 namespace ReferralBot.Db.Context;
 
 /// <summary>
-/// Фабрика для создания DatabaseContext во время выполнения команд dotnet ef.
-/// Нужна потому что DatabaseContext живёт в отдельном проекте без точки входа.
+/// Factory for creating DatabaseContext when running dotnet ef commands.
+/// Needed because DatabaseContext lives in a separate project with no entry point.
 ///
-/// Использование:
+/// Usage:
 ///   docker compose up -d db
 ///   dotnet ef database update --project ReferralBot.Db
 /// </summary>

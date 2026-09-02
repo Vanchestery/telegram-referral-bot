@@ -3,39 +3,39 @@ using ReferralBot.Pages;
 namespace ReferralBot.Models;
 
 /// <summary>
-/// Контекст взаимодействия пользователя с ботом.
-/// Живёт в памяти в рамках одного запроса — персистируется через TelegramBotUserStatesService.
+/// User–bot interaction context.
+/// Lives in memory for a single request — persisted via TelegramBotUserStatesService.
 ///
-/// Стек Pages — основа навигации:
-///   - вершина = текущая страница (CurrentPage)
-///   - BackwardDummyPage делает Pop() → возвращает на предыдущую
-///   - ResetPages() оставляет только дно стека (начальную страницу)
+/// The Pages stack is the navigation backbone:
+///   - top = current page (CurrentPage)
+///   - BackwardDummyPage pops the stack → returns to the previous page
+///   - ResetPages() leaves only the stack bottom (the start page)
 /// </summary>
 public class TelegramUserContext
 {
     public long TelegramId { get; set; }
 
-    /// <summary>Стек страниц. Вершина = текущая страница.</summary>
+    /// <summary>Page stack. Top = current page.</summary>
     public Stack<IPage> Pages { get; set; } = new();
 
-    /// <summary>Последнее сообщение бота — нужно для удаления перед отправкой нового.</summary>
+    /// <summary>The bot's last message — needed to delete it before sending a new one.</summary>
     public TelegramBotMessageDto? LastMessage { get; set; }
 
-    /// <summary>История действий для отладки.</summary>
+    /// <summary>Action history for debugging.</summary>
     public List<string> ActionsHistory { get; set; } = [];
 
-    /// <summary>Выбранный пользователем курс (для страниц курсов).</summary>
+    /// <summary>Course selected by the user (for course pages).</summary>
     public int SelectedCourseId { get; set; }
 
-    /// <summary>Приветственное видео уже было отправлено.</summary>
+    /// <summary>Whether the welcome video has already been sent.</summary>
     public bool IsWelcomeMessageSent { get; set; }
 
-    /// <summary>Текущая страница — вершина стека.</summary>
+    /// <summary>Current page — top of the stack.</summary>
     public IPage CurrentPage => Pages.Peek();
 
     /// <summary>
-    /// Добавляет страницу в стек.
-    /// Защита от дублей: не добавляет если тип совпадает с текущей страницей.
+    /// Pushes a page onto the stack.
+    /// Duplicate guard: does not add if the type matches the current page.
     /// </summary>
     public void AddPage(IPage page)
     {
@@ -44,8 +44,8 @@ public class TelegramUserContext
     }
 
     /// <summary>
-    /// Сбрасывает стек до начальной страницы (оставляет только дно).
-    /// Вызывается при /start.
+    /// Resets the stack to the start page (leaves only the bottom).
+    /// Called on /start.
     /// </summary>
     public void ResetPages()
     {

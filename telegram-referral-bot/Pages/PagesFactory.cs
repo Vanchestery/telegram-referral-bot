@@ -1,10 +1,10 @@
 namespace ReferralBot.Pages;
 
 /// <summary>
-/// Фабрика страниц по полному имени типа.
-/// Используется в PageStackConverter при десериализации стека из БД.
+/// Page factory by full type name.
+/// Used in PageStackConverter when deserializing the stack from the DB.
 ///
-/// Резолвит тип через Type.GetType(fullName) и создаёт через DI.
+/// Resolves the type via Type.GetType(fullName) and creates it through DI.
 /// </summary>
 public class PagesFactory(IServiceProvider services, ILogger<PagesFactory> logger)
 {

@@ -10,8 +10,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages.Courses;
 
 /// <summary>
-/// Карточка курса: обложка + название/описание/цена + ссылки на Stepik.
-/// «Купить со скидкой» подставляет персональный промокод партнёра, если он есть.
+/// Course card: cover + title/description/price + Stepik links.
+/// "Buy with discount" injects the partner's personal promo code when present.
 /// </summary>
 public class CoursePage(
     PageCreator pageCreator,

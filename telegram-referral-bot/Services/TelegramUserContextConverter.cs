@@ -5,12 +5,12 @@ using ReferralBot.Pages;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Конвертирует между TelegramUserContext (in-memory объект бота)
-/// и TelegramBotUserState (доменная модель для хранения в БД).
+/// Converts between TelegramUserContext (in-memory bot object)
+/// and TelegramBotUserState (domain model persisted in the DB).
 ///
-/// Вызывается в BotService при каждом update:
-///   загрузка: State (DB) → Context (memory)
-///   сохранение: Context (memory) → State (DB)
+/// Called from BotService on every update:
+///   load: State (DB) → Context (memory)
+///   save: Context (memory) → State (DB)
 /// </summary>
 public class TelegramUserContextConverter(
     PageStackConverter pageStackConverter,

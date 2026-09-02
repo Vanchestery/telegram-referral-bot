@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace ReferralBot.Db.Helpers;
 
 /// <summary>
-/// Кастомный ValueComparer для List&lt;string&gt;, хранящегося в jsonb-колонке.
+/// Custom ValueComparer for List&lt;string&gt; stored in a jsonb column.
 ///
-/// Зачем нужен:
-/// EF Core по умолчанию сравнивает ссылки на объекты (reference equality).
-/// Для jsonb-колонки с List&lt;string&gt; это приводит к тому, что EF Core всегда
-/// считает значение "изменённым" и генерирует лишние UPDATE-запросы.
-/// Этот компаратор учит EF Core сравнивать содержимое списков, а не ссылки.
+/// Why it exists:
+/// EF Core compares object references by default (reference equality).
+/// For a jsonb column with List&lt;string&gt; that makes EF Core always
+/// treat the value as "changed" and emit extra UPDATE statements.
+/// This comparer teaches EF Core to compare list contents, not references.
 /// </summary>
 public class ListOfStringsComparer() : ValueComparer<List<string>>(
     (a, b) => (a == null && b == null) || (a != null && b != null && a.SequenceEqual(b)),

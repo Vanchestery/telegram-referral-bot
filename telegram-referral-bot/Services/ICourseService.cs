@@ -3,8 +3,8 @@ using ReferralBot.Models;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Каталог курсов для UI бота. Инкапсулирует поход в Stepik (список/детали/обложка)
-/// и кэширование — страницы знают только про CourseIdTitlePair / CourseDetails.
+/// Course catalogue for the bot UI. Encapsulates Stepik calls (list/details/cover)
+/// and caching — pages only see CourseIdTitlePair / CourseDetails.
 /// </summary>
 public interface ICourseService
 {
