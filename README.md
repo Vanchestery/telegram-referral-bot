@@ -10,6 +10,12 @@ Telegram bot for a course-school partner program: Stepik catalog, referral links
 
 Portfolio project: three-tier ASP.NET Core, an `IPage` navigation stack, Stepik API with Polly retry, and REST payment webhooks.
 
+## Screenshots
+
+| Catalog | Course card | Partner cabinet |
+|---------|-------------|-----------------|
+| ![Catalog](docs/screenshots/catalog.png) | ![Course card](docs/screenshots/course.png) | ![Partner cabinet](docs/screenshots/partner.png) |
+
 ## Stack
 
 .NET 10 (LTS) · ASP.NET Core Web API · EF Core · PostgreSQL · Telegram.Bot 22 · Polly · Serilog · xUnit / Moq / FluentAssertions
