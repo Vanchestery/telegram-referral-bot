@@ -16,5 +16,28 @@ services:
       retries: 5
     restart: unless-stopped
 
+  bot:
+    build:
+      context: .
+      dockerfile: telegram-referral-bot/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      POSTGRES_REFERRALBOT_DB: "Host=db;Port=5432;Database=referralbot;Username=postgres;Password=postgres"
+      REF_BOT_KEY: ${REF_BOT_KEY}
+      REF_BOT_WEBHOOK_URL: ${REF_BOT_WEBHOOK_URL}
+      BOT_USERNAME: ${BOT_USERNAME}
+      ADMIN_TELEGRAM_ID: ${ADMIN_TELEGRAM_ID}
+      KEY_LENGTH: ${KEY_LENGTH:-8}
+      PARTNERS_API_KEY: ${PARTNERS_API_KEY}
+      STEPIK_CLIENT_ID: ${STEPIK_CLIENT_ID}
+      STEPIK_CLIENT_SECRET: ${STEPIK_CLIENT_SECRET}
+      STEPIK_TEACHER_ID: ${STEPIK_TEACHER_ID:-0}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pgdata:
