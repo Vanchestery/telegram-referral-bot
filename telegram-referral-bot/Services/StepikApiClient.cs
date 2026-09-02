@@ -7,12 +7,12 @@ using ReferralBot.Core.Models;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Typed HTTP-клиент для Stepik API.
-/// Зарегистрирован через IHttpClientFactory с retry-политикой Polly.
+/// Typed HTTP client for the Stepik API.
+/// Registered via IHttpClientFactory with a Polly retry policy.
 ///
-/// Зачем IHttpClientFactory, а не new HttpClient():
-/// new HttpClient() каждый раз создаёт новый сокет — при большом количестве запросов
-/// возникает socket exhaustion. IHttpClientFactory управляет пулом HttpMessageHandler.
+/// Why IHttpClientFactory instead of new HttpClient():
+/// new HttpClient() creates a new socket each time — under high load this
+/// causes socket exhaustion. IHttpClientFactory manages the HttpMessageHandler pool.
 /// </summary>
 public class StepikApiClient(HttpClient httpClient, IConfiguration config, ILogger<StepikApiClient> logger)
     : IStepikApiClient

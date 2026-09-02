@@ -6,11 +6,11 @@ using Telegram.Bot.Types;
 namespace ReferralBot.Pages;
 
 /// <summary>
-/// Интерфейс страницы бота.
-/// Каждый экран в боте реализует этот интерфейс.
+/// Bot page interface.
+/// Every screen in the bot implements this interface.
 ///
-/// ViewAsync  — отрендерить страницу (первый показ или обновление).
-/// HandleAsync — обработать действие пользователя на этой странице (нажатие кнопки).
+/// ViewAsync  — render the page (first show or refresh).
+/// HandleAsync — handle the user's action on this page (button press).
 /// </summary>
 public interface IPage
 {

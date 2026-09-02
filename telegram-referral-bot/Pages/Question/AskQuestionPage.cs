@@ -6,9 +6,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages.Question;
 
 /// <summary>
-/// Страница отправки вопроса администратору.
-/// Когда пользователь находится на этой странице и пишет текст —
-/// BotService перехватывает сообщение и пересылает администратору.
+/// Page for sending a question to the administrator.
+/// While the user is on this page and types text,
+/// BotService intercepts the message and forwards it to the admin.
 /// </summary>
 public class AskQuestionPage(PageCreator pageCreator) : CallbackQueryPageBase
 {

@@ -4,7 +4,7 @@ using Serilog.Formatting.Compact;
 namespace ReferralBot.Extensions;
 
 /// <summary>
-/// Serilog: консоль + дневные файлы Compact JSON (7 дней).
+/// Serilog: console + daily Compact JSON files (7-day retention).
 /// </summary>
 public static class LoggerConfigurator
 {

@@ -1,7 +1,7 @@
 namespace ReferralBot.Models;
 
 /// <summary>
-/// Детальная карточка курса для отображения в боте: название, краткое описание и цена.
+/// Detailed course card for display in the bot: title, short description, and price.
 /// </summary>
 public record CourseDetails
 {
@@ -9,9 +9,9 @@ public record CourseDetails
     public string Title { get; init; } = string.Empty;
     public string Summary { get; init; } = string.Empty;
 
-    /// <summary>Цена в базовой валюте. 0 — цена не указана/бесплатно.</summary>
+    /// <summary>Price in the base currency. 0 — unspecified / free.</summary>
     public decimal Price { get; init; }
 
-    /// <summary>Абсолютный URL обложки на CDN Stepik. null — обложки нет.</summary>
+    /// <summary>Absolute cover URL on the Stepik CDN. null if there is no cover.</summary>
     public string? CoverUrl { get; init; }
 }

@@ -3,28 +3,27 @@ using ReferralBot.Core.Models;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Контракт клиента Stepik API.
+/// Stepik API client contract.
 ///
-/// Вынесен из StepikApiClient отдельным интерфейсом, чтобы зависящие сервисы
-/// (CourseService) можно было покрыть unit-тестами с моком — без реальных
-/// HTTP-запросов к Stepik.
+/// Split out of StepikApiClient so dependent services (CourseService)
+/// can be unit-tested with a mock — without real HTTP calls to Stepik.
 /// </summary>
 public interface IStepikApiClient
 {
     /// <summary>
-    /// OAuth2-токен через client_credentials.
-    /// Возвращает null, если креды не заданы или запрос не удался.
+    /// OAuth2 token via client_credentials.
+    /// Returns null if credentials are missing or the request fails.
     /// </summary>
     Task<string?> GetAccessTokenAsync(CancellationToken ct = default);
 
     /// <summary>
-    /// Курсы преподавателя (все страницы). accessToken опционален — публичные курсы
-    /// доступны без авторизации. Возвращает пустую коллекцию при ошибке.
+    /// Teacher's courses (all pages). accessToken is optional — public courses
+    /// are available without auth. Returns an empty collection on error.
     /// </summary>
     Task<IEnumerable<StepikCourse>> GetTeacherCoursesAsync(
         int teacherId, string? accessToken = null, CancellationToken ct = default);
 
-    /// <summary>Один курс по id (детали). null при ошибке. Токен опционален.</summary>
+    /// <summary>Single course by id (details). null on error. Token is optional.</summary>
     Task<StepikCourse?> GetCourseByIdAsync(
         int courseId, string? accessToken = null, CancellationToken ct = default);
 }

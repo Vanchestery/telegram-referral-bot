@@ -13,7 +13,7 @@ public class PromoCodesController(
     IAccountsStorage accountsStorage,
     ILogger<PromoCodesController> logger) : ControllerBase
 {
-    /// <summary>Промокоды партнёра по Telegram ID.</summary>
+    /// <summary>Partner promo codes by Telegram ID.</summary>
     [HttpGet("{telegramUserId:long}")]
     public async Task<IActionResult> GetByTelegramId(long telegramUserId, CancellationToken ct)
     {

@@ -1,41 +1,41 @@
 namespace ReferralBot.Db.Entities;
 
 /// <summary>
-/// Журнал операций с бонусным балансом. Записи только добавляются — иммутабельный лог.
-/// Хранит баланс до и после операции для полной истории и аудита.
+/// Bonus-balance operation log. Append-only — an immutable journal.
+/// Stores balance before and after each operation for a full audit trail.
 /// </summary>
 public class BonusTransactionEntity
 {
-    /// <summary>Уникальный идентификатор транзакции.</summary>
+    /// <summary>Unique transaction identifier.</summary>
     public Guid Id { get; set; }
 
-    /// <summary>Аккаунт, чей баланс изменился.</summary>
+    /// <summary>Account whose balance changed.</summary>
     public Guid AccountId { get; set; }
 
-    /// <summary>Сумма изменения: положительная = начисление, отрицательная = списание.</summary>
+    /// <summary>Amount of the change: positive = credit, negative = debit.</summary>
     public int Amount { get; set; }
 
     /// <summary>
-    /// ID транзакции из внешней платёжной системы (Stepik).
-    /// Используется для idempotency-проверки: не обрабатывать одну транзакцию дважды.
+    /// Transaction ID from the external payment system (Stepik).
+    /// Used for idempotency: do not process the same transaction twice.
     /// </summary>
     public int PaymentTransactionId { get; set; }
 
-    /// <summary>Время исходной платёжной операции.</summary>
+    /// <summary>Time of the original payment operation.</summary>
     public DateTime PaymentTime { get; set; }
 
-    /// <summary>Тип операции — определяет бизнес-логику начисления/списания.</summary>
+    /// <summary>Operation type — drives credit/debit business logic.</summary>
     public BonusOperationType OperationType { get; set; }
 
-    /// <summary>Дата записи транзакции в систему.</summary>
+    /// <summary>Date the transaction was recorded in the system.</summary>
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
-    /// <summary>Баланс аккаунта до операции — для аудита и истории.</summary>
+    /// <summary>Account balance before the operation — for audit and history.</summary>
     public int BalanceBefore { get; set; }
 
-    /// <summary>Баланс аккаунта после операции.</summary>
+    /// <summary>Account balance after the operation.</summary>
     public int BalanceAfter { get; set; }
 
-    /// <summary>ID курса при операциях типа CoursePurchase. 0 если не применимо.</summary>
+    /// <summary>Course ID for CoursePurchase operations. 0 if not applicable.</summary>
     public int PurchasedCourseId { get; set; } = 0;
 }

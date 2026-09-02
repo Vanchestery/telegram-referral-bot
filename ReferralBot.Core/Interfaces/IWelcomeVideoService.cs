@@ -3,8 +3,8 @@ namespace ReferralBot.Core.Interfaces;
 public interface IWelcomeVideoService
 {
     /// <summary>
-    /// Возвращает Telegram file_id активного приветственного видео.
-    /// null — если видео не загружено или не активно.
+    /// Returns the Telegram file_id of the active welcome video.
+    /// null if no video is uploaded or none is active.
     /// </summary>
     Task<string?> GetActiveFileIdAsync(CancellationToken ct = default);
 }

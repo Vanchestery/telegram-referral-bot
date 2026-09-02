@@ -8,11 +8,11 @@ using ReferralBot.Models;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Каталог курсов поверх Stepik API + IMemoryCache.
+/// Course catalogue on top of the Stepik API + IMemoryCache.
 ///
-/// Кэш важен, потому что карточка курса дёргает данные дважды за рендер
-/// (GetCourseInfoAsync для текста и GetCourseLogoAsync для фото) — без кэша это два
-/// обращения к Stepik на каждый показ.
+/// Cache matters because a course card fetches data twice per render
+/// (GetCourseInfoAsync for text and GetCourseLogoAsync for the photo) — without cache
+/// that is two Stepik calls per view.
 /// </summary>
 public class CourseService(
     IStepikApiClient stepik,

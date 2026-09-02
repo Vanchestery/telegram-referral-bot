@@ -123,8 +123,8 @@ public static class ContainerConfigurator
     }
 
     /// <summary>
-    /// Регистрирует все страницы бота через рефлексию.
-    /// Любой класс реализующий IPage и не являющийся абстрактным — попадёт в DI.
+    /// Registers all bot pages via reflection.
+    /// Any non-abstract class implementing IPage is added to DI.
     /// </summary>
     private static void RegisterPages(IServiceCollection services)
     {
@@ -149,9 +149,9 @@ public static class ContainerConfigurator
     }
 
     /// <summary>
-    /// Typed HTTP-клиент для Stepik API с retry-политикой Polly.
-    /// Exponential backoff: 1я попытка — сразу, 2я — через 2с, 3я — через 4с.
-    /// Срабатывает при HttpRequestException и ответах 5xx.
+    /// Typed HTTP client for the Stepik API with a Polly retry policy.
+    /// Exponential backoff: 1st attempt immediately, 2nd after 2s, 3rd after 4s.
+    /// Triggers on HttpRequestException and 5xx responses.
     /// </summary>
     private static void ConfigureStepikApiClient(IServiceCollection services)
     {

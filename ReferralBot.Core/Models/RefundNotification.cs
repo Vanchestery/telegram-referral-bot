@@ -1,8 +1,8 @@
 namespace ReferralBot.Core.Models;
 
 /// <summary>
-/// Уведомление о возврате от внешней платёжной системы.
-/// Принимается через POST /api/bonus/refund.
+/// Refund notification from an external payment system.
+/// Accepted via POST /api/bonus/refund.
 /// </summary>
 public class RefundNotification
 {

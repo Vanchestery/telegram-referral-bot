@@ -1,26 +1,26 @@
 namespace ReferralBot.Db.Entities;
 
 /// <summary>
-/// Тип операции с бонусным балансом.
-/// Хранится как int — для транзакций важна компактность и скорость фильтрации.
+/// Bonus-balance operation type.
+/// Stored as int — compactness and filter speed matter for transactions.
 /// </summary>
 public enum BonusOperationType
 {
-    /// <summary>Начисление бонусов реферерру за покупку реферала.</summary>
+    /// <summary>Bonus credit to the referrer for a referral's purchase.</summary>
     Purchase = 1,
 
-    /// <summary>Списание бонусов при возврате покупки реферала.</summary>
+    /// <summary>Bonus debit when a referral's purchase is refunded.</summary>
     Refund = 2,
 
-    /// <summary>Списание бонусов при покупке курса самим партнёром.</summary>
+    /// <summary>Bonus debit when the partner buys a course themselves.</summary>
     CoursePurchase = 3,
 
-    /// <summary>Ручная корректировка администратором.</summary>
+    /// <summary>Manual adjustment by an administrator.</summary>
     ManualOperation = 4,
 
-    /// <summary>Списание по внешнему запросу.</summary>
+    /// <summary>Debit via an external request.</summary>
     Debit = 5,
 
-    /// <summary>Начисление по внешнему запросу.</summary>
+    /// <summary>Credit via an external request.</summary>
     Credit = 6
 }

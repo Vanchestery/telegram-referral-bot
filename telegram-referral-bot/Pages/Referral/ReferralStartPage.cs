@@ -10,8 +10,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages.Referral;
 
 /// <summary>
-/// Главная страница для пользователей, пришедших по реферальной ссылке.
-/// Персонализирована — показывает имя партнёра, который пригласил.
+/// Home page for users who arrived via a referral link.
+/// Personalized — shows the name of the partner who invited them.
 /// </summary>
 public class ReferralStartPage(
     PageCreator pageCreator,

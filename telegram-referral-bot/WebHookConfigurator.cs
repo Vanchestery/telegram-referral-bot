@@ -7,11 +7,11 @@ using ReferralBot.Extensions;
 namespace ReferralBot;
 
 /// <summary>
-/// Фоновая служба, запускающаяся при старте приложения.
-/// Регистрирует webhook URL в Telegram и задаёт список команд бота.
+/// Background service that runs at application startup.
+/// Registers the webhook URL with Telegram and sets the bot command list.
 ///
-/// Используем IHostedService, а не BackgroundService — нужна только
-/// однократная инициализация при старте, без бесконечного цикла.
+/// Uses IHostedService rather than BackgroundService — only one-shot
+/// initialization at startup is needed, not an infinite loop.
 /// </summary>
 public class WebHookConfigurator(
     IServiceScopeFactory scopeFactory,

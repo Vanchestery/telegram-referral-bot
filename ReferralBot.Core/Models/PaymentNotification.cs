@@ -1,18 +1,18 @@
 namespace ReferralBot.Core.Models;
 
 /// <summary>
-/// Уведомление о покупке от внешней платёжной системы (Stepik).
-/// Принимается через POST /api/bonus/payment.
+/// Purchase notification from an external payment system (Stepik).
+/// Accepted via POST /api/bonus/payment.
 /// </summary>
 public class PaymentNotification
 {
     public int TransactionId { get; set; }
     public int CourseId { get; set; }
 
-    /// <summary>Stepik User ID покупателя.</summary>
+    /// <summary>Stepik User ID of the buyer.</summary>
     public long UserId { get; set; }
 
-    /// <summary>Сумма покупки в рублях.</summary>
+    /// <summary>Purchase amount in rubles.</summary>
     public int Amount { get; set; }
 
     public DateTime PaymentTime { get; set; }

@@ -4,7 +4,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages.PageResults;
 
 /// <summary>
-/// Результат страницы с фото. Отправляется через SendPhoto вместо SendMessage.
+/// Page result with a photo. Sent via SendPhoto instead of SendMessage.
 /// </summary>
 public class PhotoPageResult(
     InputFile photo,

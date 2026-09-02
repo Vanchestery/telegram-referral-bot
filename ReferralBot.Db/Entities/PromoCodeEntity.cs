@@ -3,46 +3,46 @@ using System.ComponentModel.DataAnnotations;
 namespace ReferralBot.Db.Entities;
 
 /// <summary>
-/// Промокод, привязанный к аккаунту партнёра и конкретному курсу.
-/// Один аккаунт может иметь не более одного промокода на каждый курс.
+/// Promo code bound to a partner account and a specific course.
+/// One account may have at most one promo code per course.
 /// </summary>
 public class PromoCodeEntity
 {
     [Key]
     public int Id { get; set; }
 
-    /// <summary>Аккаунт-владелец промокода.</summary>
+    /// <summary>Account that owns the promo code.</summary>
     public Guid AccountId { get; set; }
 
-    /// <summary>ID курса на платформе Stepik.</summary>
+    /// <summary>Course ID on the Stepik platform.</summary>
     public int CourseId { get; set; }
 
-    /// <summary>Публичное название промокода.</summary>
+    /// <summary>Public name of the promo code.</summary>
     [Required]
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>Промокод активен и доступен для использования.</summary>
+    /// <summary>Whether the promo code is active and available for use.</summary>
     public bool IsActive { get; set; } = true;
 
-    /// <summary>Описание условий применения.</summary>
+    /// <summary>Description of the usage terms.</summary>
     [MaxLength(1000)]
     public string Description { get; set; } = string.Empty;
 
-    /// <summary>Размер скидки (число или текст, например "10" или "10%").</summary>
+    /// <summary>Discount amount (number or text, e.g. "10" or "10%").</summary>
     [MaxLength(50)]
     public string Discount { get; set; } = string.Empty;
 
-    /// <summary>Промокод создан и синхронизирован со стороны Stepik.</summary>
+    /// <summary>Promo code was created and synced on the Stepik side.</summary>
     public bool IsStepikSide { get; set; } = false;
 
-    /// <summary>true — скидка в процентах; false — фиксированная сумма.</summary>
+    /// <summary>true — percentage discount; false — fixed amount.</summary>
     public bool IsPercentDiscount { get; set; } = false;
 
     /// <summary>
-    /// Уникальный хеш для платёжной ссылки:
+    /// Unique hash for the payment link:
     /// https://stepik.org/a/{courseId}/pay?promo={Hex}
-    /// Генерируется на основе CourseId + AccountId.
+    /// Generated from CourseId + AccountId.
     /// </summary>
     [MaxLength(64)]
     public string Hex { get; set; } = string.Empty;
@@ -50,15 +50,15 @@ public class PromoCodeEntity
     public DateTime? CreateDate { get; set; }
     public DateTime? UpdateDate { get; set; }
 
-    /// <summary>Дата начала действия. null — действует с момента создания.</summary>
+    /// <summary>Start of validity. null — valid from creation.</summary>
     public DateTime? StartDate { get; set; }
 
-    /// <summary>Дата окончания действия. null — бессрочный.</summary>
+    /// <summary>End of validity. null — no expiry.</summary>
     public DateTime? ExpireDate { get; set; }
 
-    /// <summary>Stepik User ID для персонального промокода. null — доступен всем.</summary>
+    /// <summary>Stepik User ID for a personal promo code. null — available to everyone.</summary>
     public int? UserId { get; set; }
 
-    /// <summary>Максимум использований одним пользователем. null — без ограничений.</summary>
+    /// <summary>Maximum uses per user. null — unlimited.</summary>
     public int? LimitPerUser { get; set; }
 }

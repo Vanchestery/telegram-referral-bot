@@ -6,8 +6,8 @@ using Telegram.Bot.Types.Enums;
 namespace ReferralBot.Services;
 
 /// <summary>
-/// Ежедневная рассылка статистики партнёрам (09:00 UTC).
-/// BackgroundService — Singleton: Scoped-сервисы только через IServiceScopeFactory.
+/// Daily stats broadcast to partners (09:00 UTC).
+/// BackgroundService is a Singleton: Scoped services only via IServiceScopeFactory.
 /// </summary>
 public class DailyStatsNotificationService(
     IServiceScopeFactory scopeFactory,

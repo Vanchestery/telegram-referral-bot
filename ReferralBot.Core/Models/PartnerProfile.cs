@@ -1,8 +1,8 @@
 namespace ReferralBot.Core.Models;
 
 /// <summary>
-/// Профиль партнёра для отображения в боте.
-/// Агрегирует данные из Account — вычисляет уровень и процент бонусов.
+/// Partner profile for display in the bot.
+/// Aggregates data from Account — computes level and bonus percentage.
 /// </summary>
 public class PartnerProfile
 {
@@ -17,7 +17,7 @@ public class PartnerProfile
     public int InvitedPurchasesCount { get; set; }
     public UserLevel Level { get; set; }
 
-    /// <summary>Процент бонусов, начисляемых партнёру с каждой покупки реферала.</summary>
+    /// <summary>Bonus percentage credited to the partner from each referral purchase.</summary>
     public int BonusRate => Level switch
     {
         UserLevel.Intern => 15,

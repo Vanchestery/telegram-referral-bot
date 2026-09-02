@@ -1,8 +1,8 @@
 namespace ReferralBot.Db.Entities;
 
 /// <summary>
-/// Статус учётной записи пользователя в базе данных.
-/// Хранится как строка (HasConversion) — читается без магии чисел.
+/// User account status in the database.
+/// Stored as a string (HasConversion) — readable without magic numbers.
 /// </summary>
 public enum UserDbStatus
 {

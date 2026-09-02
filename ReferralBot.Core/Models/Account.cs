@@ -1,7 +1,7 @@
 namespace ReferralBot.Core.Models;
 
 /// <summary>
-/// Доменная модель финансового аккаунта пользователя.
+/// Domain model of a user's financial account.
 /// </summary>
 public class Account
 {

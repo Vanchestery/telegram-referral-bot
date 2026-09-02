@@ -4,7 +4,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ReferralBot.Pages.PageResults;
 
 /// <summary>
-/// Результат страницы с документом. Отправляется через SendDocument.
+/// Page result with a document. Sent via SendDocument.
 /// </summary>
 public class DocumentPageResult(
     InputFile document,
